@@ -1,0 +1,26 @@
+.page-head { margin-bottom: 1.25rem; padding-bottom: .875rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+.page-head h1 { margin: 0; font-size: 1.375rem; font-weight: 600; }
+.page-head p { margin: .25rem 0 0; font-size: .8125rem; color: var(--color-muted); }
+.muted { color: var(--color-muted); font-size: .875rem; }
+.italic { font-style: italic; }
+
+.monitor-grid { display: grid; gap: 1rem; }
+.monitor-card { padding: 1.25rem; background: #151b24; border: 1px solid rgba(255,255,255,.08); border-radius: 6px; }
+.monitor-card__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: .75rem; }
+.monitor-card__head h3 { margin: 0; font-size: .875rem; letter-spacing: .06em; text-transform: uppercase; color: var(--color-muted); }
+.monitor-card__val { margin: 0 0 .75rem; font-size: 2.75rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.monitor-card__val span { font-size: 1.25rem; color: var(--color-muted); margin-left: .25rem; }
+.monitor-card__bar { height: 8px; background: rgba(255,255,255,.06); border-radius: 4px; overflow: hidden; margin-bottom: .625rem; }
+.monitor-card__fill { height: 100%; transition: width .4s ease; }
+.monitor-card__fill--healthy { background: var(--color-success); }
+.monitor-card__fill--warning { background: var(--color-warning); }
+.monitor-card__fill--critical { background: var(--color-danger); }
+.monitor-card__desc { margin: 0; font-size: .8125rem; color: var(--color-muted); }
+
+.info-panel, .settings { background: #151b24; border: 1px solid rgba(255,255,255,.08); border-radius: 6px; padding: 1.25rem; }
+.info-panel h2 { margin: 0 0 .5rem; font-size: 1rem; }
+.info-panel p, .info-panel li { font-size: .875rem; color: var(--color-muted); }
+.settings__row { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-top: 1px solid rgba(255,255,255,.06); font-size: .875rem; }
+.settings__row:first-child { border-top: none; padding-top: 0; }
+.settings__row .ok { color: var(--color-success); }
+.settings__row .warn { color: var(--color-warning); }
