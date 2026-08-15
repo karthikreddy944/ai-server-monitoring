@@ -14,7 +14,7 @@
   display: grid;
   grid-template-columns: 240px 1fr;
   min-height: 100vh;
-  background: var(--color-bg);
+  background: transparent;
   color: var(--color-text);
   font-family: "Segoe UI", system-ui, sans-serif;
 }
@@ -145,4 +145,652 @@
   .top-bar, .system-status { flex-direction: column; align-items: flex-start; }
   .top-bar__right, .system-status__msg { text-align: left; }
   .metric-grid { grid-template-columns: 1fr; }
+}
+
+.resource-usage__chart {
+  position: relative;
+  overflow: visible;
+  height: auto;
+}
+
+.ru-svg {
+  width: 100%;
+  height: 180px;
+  display: block;
+  --ru-accent: #3b82f6;
+}
+
+.ru-gridline {
+  stroke: rgba(148, 163, 184, 0.15);
+  stroke-width: 1;
+}
+
+.ru-area {
+  opacity: 0;
+  animation: ru-fade-in 0.6s ease-out 0.15s forwards;
+}
+
+.ru-line {
+  stroke: var(--ru-accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  animation: ru-draw 0.9s ease-out forwards;
+  filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.35));
+}
+
+@keyframes ru-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes ru-fade-in {
+  to { opacity: 1; }
+}
+
+.ru-point {
+  fill: transparent;
+  stroke: transparent;
+  cursor: pointer;
+  transition: r 0.15s ease;
+}
+
+.ru-point:hover,
+.ru-point[r="5"] {
+  fill: var(--ru-accent);
+}
+
+.ru-latest__dot {
+  fill: var(--ru-accent);
+  stroke: var(--ru-accent);
+}
+
+.ru-latest__pulse {
+  fill: none;
+  stroke: var(--ru-accent);
+  stroke-width: 2;
+  opacity: 0.6;
+  transform-origin: center;
+  animation: ru-pulse 1.8s ease-out infinite;
+}
+
+@keyframes ru-pulse {
+  0% { opacity: 0.6; transform: scale(0.4); }
+  70% { opacity: 0; transform: scale(1.6); }
+  100% { opacity: 0; transform: scale(1.6); }
+}
+
+.ru-tooltip {
+  position: absolute;
+  transform: translate(-50%, -130%);
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #e2e8f0;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+.ru-tooltip__metric {
+  font-weight: 600;
+  color: var(--ru-accent);
+}
+
+.ru-tooltip__time {
+  color: #94a3b8;
+}
+
+.ru-tooltip__value {
+  font-weight: 600;
+}
+
+.resource-usage__tab {
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.resource-usage__tab--active {
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.resource-usage__empty--fade {
+  animation: ru-fade-in 0.3s ease-out forwards;
+}
+
+.resource-usage__summary {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.resource-usage__summary-metric {
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.resource-usage__summary-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ru-accent);
+}
+
+.resource-usage__summary-count {
+  color: #94a3b8;
+}
+
+@media (max-width: 480px) {
+  .ru-tooltip {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+}
+.ru-y-label {
+  fill: #94a3b8;
+  font-size: 10px;
+}
+.resource-usage__chart {
+  position: relative;
+  overflow: hidden;
+  height: auto;
+}
+
+.ru-svg {
+  width: 100%;
+  height: 236px;
+  display: block;
+  --ru-accent: #3b82f6;
+}
+
+.ru-gridline {
+  stroke: rgba(148, 163, 184, 0.14);
+  stroke-width: 1;
+}
+
+.ru-y-label {
+  fill: #cbd5e1;
+  font-size: 11px;
+}
+
+.ru-axis-line {
+  stroke: rgba(148, 163, 184, 0.28);
+  stroke-width: 1;
+}
+
+.ru-axis-tick {
+  stroke: rgba(148, 163, 184, 0.4);
+  stroke-width: 1;
+}
+
+.ru-axis-label {
+  fill: #cbd5e1;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.ru-hover-guide {
+  stroke: rgba(148, 163, 184, 0.5);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.ru-area {
+  opacity: 0;
+  animation: ru-fade-in 0.6s ease-out 0.15s forwards;
+}
+
+.ru-line {
+  stroke: var(--ru-accent);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 2200;
+  stroke-dashoffset: 2200;
+  animation: ru-draw 1s ease-out forwards;
+  filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.4));
+}
+
+@keyframes ru-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes ru-fade-in {
+  to { opacity: 1; }
+}
+
+.ru-point {
+  fill: transparent;
+  stroke: transparent;
+  cursor: pointer;
+  transition: r 0.15s ease;
+}
+
+.ru-point:hover,
+.ru-point[r="5"] {
+  fill: var(--ru-accent);
+}
+
+.ru-latest__dot {
+  fill: var(--ru-accent);
+  stroke: rgba(255, 255, 255, 0.9);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.9));
+}
+.ru-latest__halo {
+  fill: rgba(59, 130, 246, 0.18);
+  stroke: none;
+}
+
+.ru-latest__pulse {
+  fill: none;
+  stroke: var(--ru-accent);
+  stroke-width: 1.5;
+  transform-origin: center;
+  transform-box: fill-box;
+  opacity: 0;
+  animation: ru-pulse-ring 2.6s cubic-bezier(0.16, 0.84, 0.44, 1) infinite;
+}
+.ru-latest__pulse--a {
+  animation-delay: 0s;
+}
+
+.ru-latest__pulse--b {
+  animation-delay: 1.3s;
+}
+
+
+@keyframes ru-pulse-ring {
+  0% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  70% {
+    opacity: 0;
+    transform: scale(3.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3.2);
+  }
+}
+
+.ru-tooltip {
+  position: absolute;
+  transform: translate(-50%, calc(-100% - 12px));
+  background: rgba(15, 23, 42, 0.96);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 6px;
+  padding: 7px 11px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #e2e8f0;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 2;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+.ru-tooltip--below {
+  transform: translate(-50%, 12px);
+}
+.ru-tooltip__metric {
+  font-weight: 600;
+  color: var(--ru-accent);
+}
+
+.ru-tooltip__time {
+  color: #94a3b8;
+}
+
+.ru-tooltip__value {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.resource-usage__empty--fade {
+  animation: ru-fade-in 0.3s ease-out forwards;
+}
+
+.resource-usage__summary {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.resource-usage__summary-metric {
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.resource-usage__summary-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ru-accent);
+}
+
+.resource-usage__summary-count {
+  color: #94a3b8;
+}
+
+@media (max-width: 480px) {
+  .ru-tooltip {
+    font-size: 11px;
+    padding: 5px 9px;
+  }
+  .ru-axis-label,
+  .ru-y-label {
+    font-size: 9px;
+  }
+}
+
+/* ---- Analytics page additions ---- */
+
+.analytics-summary {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: .875rem;
+  margin-bottom: 1rem;
+}
+
+.analytics-summary__title {
+  margin: 0 0 .75rem;
+  font-size: .9375rem;
+  font-weight: 600;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .75rem;
+  margin-bottom: .75rem;
+}
+
+.analytics-card {
+  display: flex;
+  flex-direction: column;
+  gap: .375rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: .75rem;
+}
+
+.analytics-card__label {
+  font-size: .6875rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--color-muted);
+}
+
+.analytics-card__value {
+  font-size: 1.375rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.analytics-meta {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  font-size: .8125rem;
+  color: var(--color-muted);
+  padding-top: .5rem;
+  border-top: 1px solid var(--border);
+}
+
+.analytics-meta strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+  .analytics-meta {
+    flex-direction: column;
+    gap: .375rem;
+  }
+}
+/* ---- Resource Usage visual polish (per-metric accent + depth) ---- */
+/* Appended after the existing .resource-usage / .ru-* rules so it wins the cascade. */
+
+.resource-usage {
+  border-radius: 10px;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+/* Tab accent dots + colored active state (set inline per-tab in JS, this covers the rest) */
+.resource-usage__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.resource-usage__tab-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+/* Chart panel: subtle ambient glow tinted by the active metric's accent */
+.resource-usage__chart {
+  border-radius: 8px;
+  background:
+    radial-gradient(140% 120% at 12% -10%, rgba(var(--ru-glow-rgb), 0.07), transparent 55%),
+    #10161f;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02), inset 0 0 0 1px rgba(255, 255, 255, 0.01);
+  transition: background 0.35s ease;
+}
+
+.ru-gridline {
+  stroke: rgba(148, 163, 184, 0.1);
+  stroke-dasharray: 2 5;
+}
+
+.ru-axis-line {
+  stroke: rgba(148, 163, 184, 0.22);
+}
+
+.ru-line {
+  stroke: var(--ru-accent);
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 6px rgba(var(--ru-glow-rgb), 0.45));
+  transition: stroke 0.3s ease, filter 0.3s ease;
+}
+
+.ru-point:hover,
+.ru-point[r="5"] {
+  fill: var(--ru-accent);
+  filter: drop-shadow(0 0 4px rgba(var(--ru-glow-rgb), 0.6));
+}
+
+.ru-latest__dot {
+  fill: var(--ru-accent);
+  stroke: rgba(255, 255, 255, 0.92);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 5px rgba(var(--ru-glow-rgb), 0.95));
+  transition: fill 0.3s ease, filter 0.3s ease;
+}
+
+.ru-latest__halo {
+  fill: rgba(var(--ru-glow-rgb), 0.2);
+  transition: fill 0.3s ease;
+}
+
+.ru-latest__pulse {
+  stroke: var(--ru-accent);
+  transition: stroke 0.3s ease;
+}
+
+.ru-y-label,
+.ru-axis-label {
+  fill: #94a3b8;
+  font-variant-numeric: tabular-nums;
+}
+
+.ru-tooltip {
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(var(--ru-glow-rgb), 0.35);
+  border-left: 3px solid var(--ru-accent);
+  padding: 7px 12px 7px 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.3s ease;
+}
+
+.ru-tooltip__metric {
+  color: var(--ru-accent);
+  transition: color 0.3s ease;
+}
+
+.resource-usage__summary-value {
+  color: var(--ru-accent, #3b82f6);
+  transition: color 0.3s ease;
+}
+
+.resource-usage {
+  padding: 1.25rem 1.375rem 1.125rem;
+  border-radius: 12px;
+}
+ 
+.resource-usage__head {
+  margin-bottom: 1.125rem;
+}
+ 
+.resource-usage__head h2 {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #f1f5f9;
+}
+ 
+.resource-usage__head p {
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+  margin-top: 0.25rem;
+}
+ 
+.resource-usage__tag {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+}
+ 
+/* Pill-style tabs, more breathing room, clearer active state */
+.resource-usage__tabs {
+  gap: 0.5rem;
+  margin-bottom: 1.125rem;
+}
+ 
+.resource-usage__tab {
+  padding: 0.4375rem 0.875rem;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+ 
+.resource-usage__tab-dot {
+  width: 6px;
+  height: 6px;
+}
+ 
+/* Chart panel: more internal breathing room */
+.resource-usage__chart {
+  border-radius: 10px;
+  padding-top: 0.5rem;
+}
+ 
+.ru-y-label {
+  font-size: 11px;
+  font-weight: 500;
+  fill: #9aa8bd;
+}
+ 
+.ru-axis-label {
+  font-size: 11px;
+  font-weight: 500;
+  fill: #9aa8bd;
+  letter-spacing: 0.01em;
+}
+ 
+/* Summary row below the chart */
+.resource-usage__summary {
+  gap: 0.75rem;
+  margin-top: 0.875rem;
+  font-size: 0.8125rem;
+}
+ 
+.resource-usage__summary-metric {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #cbd5e1;
+  text-transform: uppercase;
+}
+ 
+.resource-usage__summary-value {
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+ 
+.resource-usage__summary-count {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+ 
+.resource-usage__foot {
+  margin-top: 0.75rem;
+  font-size: 0.6875rem;
+  font-style: italic;
+  color: #64748b;
+}
+ 
+/* Tooltip typography */
+.ru-tooltip {
+  font-size: 12px;
+  border-radius: 8px;
+  padding: 8px 13px 8px 11px;
+}
+ 
+.ru-tooltip__metric {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+ 
+.ru-tooltip__value {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 2px 0;
+}
+ 
+.ru-tooltip__time {
+  font-size: 11px;
+  color: #94a3b8;
+}
+ 
+@media (max-width: 480px) {
+  .resource-usage {
+    padding: 1rem;
+  }
+  .resource-usage__tab {
+    padding: 0.375rem 0.7rem;
+    font-size: 0.75rem;
+  }
 }

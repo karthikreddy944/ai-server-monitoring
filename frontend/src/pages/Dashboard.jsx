@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useMetricsContext } from "../context/MetricsContext";
 import { useMetricSamples } from "../hooks/useMetricSamples";
+import { useMetricsHistory } from "../hooks/useMetricsHistory"; // NEW
 import TopBar from "../components/TopBar";
 import SystemStatus from "../components/SystemStatus";
 import MetricCard from "../components/MetricCard";
@@ -32,6 +33,7 @@ function DashboardError({ message, onRetry }) {
 function DashboardContent({ onRetry }) {
   const { metrics, loading, error } = useMetricsContext();
   const samples = useMetricSamples(metrics);
+  const { history, loading: historyLoading, error: historyError } = useMetricsHistory(100, 5000);
   const [lastUpdated, setLastUpdated] = useState(null);
   const [, tick] = useState(0);
 
@@ -58,7 +60,7 @@ function DashboardContent({ onRetry }) {
         <MetricCard label="RAM" value={metrics.ram.value} unit={metrics.ram.unit} samples={samples.ram} />
         <MetricCard label="DISK" value={metrics.disk.value} unit={metrics.disk.unit} samples={samples.disk} />
       </section>
-      <ResourceUsage />
+      <ResourceUsage history={history} loading={historyLoading} error={historyError} /> {/* CHANGED */}
     </div>
   );
 }

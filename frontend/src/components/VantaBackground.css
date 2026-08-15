@@ -1,0 +1,15 @@
+.vanta-bg {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none; /* remove this line if you want mouseControls interaction to work */
+  }
+   
+  @media (prefers-reduced-motion: reduce) {
+    .vanta-bg {
+      display: none;
+    }
+  }
+   

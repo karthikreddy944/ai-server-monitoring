@@ -1,6 +1,12 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 
-from app.schemas.metrics import MetricValue, MetricsSummary
+from app.schemas.metrics import (
+    MetricHistoryRecord,
+    MetricValue,
+    MetricsHistoryResponse,
+    MetricsSummary,
+)
+from app.services.metrics_history import get_metrics_history, save_metrics_snapshot
 from app.services.prometheus import prometheus_service
 
 router = APIRouter(prefix="/api/metrics", tags=["metrics"])
@@ -43,8 +49,23 @@ async def get_metrics_summary() -> MetricsSummary:
     except Exception as exc:
         raise HTTPException(status_code=502, detail=str(exc)) from exc
 
-    return MetricsSummary(
+    summary = MetricsSummary(
         cpu=MetricValue(value=round(cpu, 2), instance="laptop"),
         ram=MetricValue(value=round(ram, 2), instance="laptop"),
         disk=MetricValue(value=round(disk, 2), instance="laptop"),
     )
+
+    # Save only after Prometheus succeeded (inside try block, after summary built)
+    save_metrics_snapshot(summary)
+
+    return summary
+
+
+@router.get("/history", response_model=MetricsHistoryResponse)
+async def get_metrics_history_endpoint(
+    limit: int = Query(default=100, ge=1, le=1000),
+) -> MetricsHistoryResponse:
+    """Return stored historical CPU/RAM/Disk snapshots."""
+    rows = get_metrics_history(limit=limit)
+    records = [MetricHistoryRecord(**row) for row in rows]
+    return MetricsHistoryResponse(records=records, count=len(records))

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel, Field
 
 
@@ -15,3 +17,21 @@ class MetricsSummary(BaseModel):
     cpu: MetricValue
     ram: MetricValue
     disk: MetricValue
+
+
+class MetricHistoryRecord(BaseModel):
+    """One stored historical metrics snapshot."""
+
+    id: int
+    timestamp: datetime
+    cpu: float
+    ram: float
+    disk: float
+    instance: str
+
+
+class MetricsHistoryResponse(BaseModel):
+    """List of historical metrics records."""
+
+    records: list[MetricHistoryRecord]
+    count: int

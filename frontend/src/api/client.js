@@ -30,3 +30,13 @@ export async function fetchMetricsSummary() {
 
   return response.json();
 }
+
+export async function fetchMetricsHistory(limit = 100) {
+  const response = await fetch(`/api/metrics/history?limit=${limit}`);
+
+  if (!response.ok) {
+    throw new Error(`Metrics history failed: ${response.status}`);
+  }
+
+  return response.json();
+}
