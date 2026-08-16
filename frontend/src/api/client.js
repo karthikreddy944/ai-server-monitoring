@@ -40,3 +40,16 @@ export async function fetchMetricsHistory(limit = 100) {
 
   return response.json();
 }
+/**
+ * Fetch rule-based insights derived from real stored metrics.
+ * GET /api/insights
+ */
+export async function fetchInsights(limit = 100) {
+  const response = await fetch(`/api/insights?limit=${limit}`);
+
+  if (!response.ok) {
+    throw new Error(`Insights fetch failed: ${response.status}`);
+  }
+
+  return response.json();
+}
