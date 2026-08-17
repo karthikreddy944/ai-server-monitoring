@@ -14,3 +14,8 @@ build/
 
 # SQLite database (local dev data)
 data/
+# Temporary development ZIPs and extracted step folders
+*.zip
+step*/
+day5-*/
+day6-*/

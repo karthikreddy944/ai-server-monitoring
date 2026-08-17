@@ -53,3 +53,35 @@ export async function fetchInsights(limit = 100) {
 
   return response.json();
 }
+
+/**
+ * Request an on-demand LLM explanation for a metric (or overall system state).
+ * POST /api/insights/explain
+ *
+ * @param {"cpu"|"ram"|"disk"|null} [metric] - omit/null for overall explanation
+ */
+export async function explainInsight(metric) {
+  const response = await fetch("/api/insights/explain", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(metric ? { metric } : {}),
+  });
+
+  if (!response.ok) {
+    throw new Error(`AI explanation failed: ${response.status}`);
+  }
+
+  return response.json();
+}
+export const fetchRisk = async () => {
+  const response = await fetch('/api/risk');
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch risk');
+  }
+
+  return response.json();
+};
+

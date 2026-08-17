@@ -116,7 +116,7 @@ function anchorForIndex(i, total) {
 export default function ResourceUsage({ history = [], loading = false, error = null }) {
   const [tab, setTab] = useState("CPU");
   const [hoverIndex, setHoverIndex] = useState(null);
-  const [animKey, setAnimKey] = useState(0);
+  const animKey = `${tab}`;
   const [containerWidth, setContainerWidth] = useState(CHART_WIDTH);
   const chartRef = useRef(null);
 
@@ -153,13 +153,7 @@ export default function ResourceUsage({ history = [], loading = false, error = n
     () => pickLabelIndices(coords.length, maxLabels),
     [coords.length, maxLabels]
   );
-
-  useEffect(() => {
-    setAnimKey((k) => k + 1);
-    setHoverIndex(null);
-  }, [tab, points.length]);
-
-  return (
+return (
     <section className="resource-usage">
       <div className="resource-usage__head">
         <div>
@@ -200,13 +194,13 @@ export default function ResourceUsage({ history = [], loading = false, error = n
         ref={chartRef}
         style={{ "--ru-accent": accent.hex, "--ru-glow-rgb": accent.rgb }}
       >
-        {loading && (
+        {loading && points.length === 0 && (
           <div className="resource-usage__empty resource-usage__empty--fade">
             <p><strong>Loading {tab} history…</strong></p>
           </div>
         )}
 
-        {!loading && error && (
+        {error && points.length === 0 && (
           <div className="resource-usage__empty resource-usage__empty--fade">
             <p><strong>Unable to load {tab} history</strong></p>
             <p className="resource-usage__note">{error}</p>
@@ -220,7 +214,7 @@ export default function ResourceUsage({ history = [], loading = false, error = n
           </div>
         )}
 
-        {!loading && !error && points.length > 0 && (
+        {points.length > 0 && (
           <svg
             key={animKey}
             viewBox={`0 0 ${CHART_WIDTH} ${TOTAL_HEIGHT}`}
@@ -333,7 +327,7 @@ export default function ResourceUsage({ history = [], loading = false, error = n
         )}
       </div>
 
-      {!loading && !error && points.length > 0 && (
+      {points.length > 0 && (
         <div className="resource-usage__summary">
           <span className="resource-usage__summary-metric">{tab}</span>
           <span className="resource-usage__summary-value">{latest.value.toFixed(2)}%</span>
@@ -345,3 +339,5 @@ export default function ResourceUsage({ history = [], loading = false, error = n
     </section>
   );
 }
+
+

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import health, insights, metrics
+from app.api.routes import health, insights, llm, metrics, processes, risk, trends
 from app.core.config import settings
 from app.db.database import init_db
 
@@ -26,6 +26,10 @@ app.add_middleware(
 app.include_router(health.router)
 app.include_router(metrics.router)
 app.include_router(insights.router)
+app.include_router(llm.router)
+app.include_router(processes.router)
+app.include_router(trends.router)
+app.include_router(risk.router)
 
 
 @app.get("/")
