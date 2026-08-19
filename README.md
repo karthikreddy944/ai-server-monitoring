@@ -84,7 +84,7 @@ The system also includes an AI-powered analysis layer that can:
                           ▼
                 Monitoring Dashboard
 
-🔄 Complete Monitoring Workflow
+#🔄 Complete Monitoring Workflow
 Windows System
       │
       ▼
