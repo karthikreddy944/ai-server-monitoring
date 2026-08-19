@@ -1,6 +1,4 @@
-# SentinelAI
-
-AI-Powered Intelligent System Monitoring & Risk Analysis Platform
+# SentinelAI - AI-Powered Intelligent System Monitoring & Risk Analysis Platform
 
 An AI-powered system monitoring application that collects real-time Windows system metrics, analyzes resource usage, detects potential risks, predicts threshold breaches, and generates AI-based explanations and recommendations.
 
